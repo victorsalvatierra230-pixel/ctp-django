@@ -1,0 +1,74 @@
+  .form-outline {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-outline input {
+    border: 2px solid #ced4da;
+    border-radius: 0.5rem;
+    padding: 1.25rem 0.75rem 0.5rem 0.75rem;
+    width: 100%;
+    transition: border-color 0.3s;
+    background: transparent;
+  }
+
+  .form-outline label {
+    position: absolute;
+    top: 1rem;
+    left: 0.75rem;
+    color: #6c757d;
+    transition: 0.2s ease all;
+    pointer-events: none;
+    background: white;
+    padding: 0 0.25rem;
+  }
+
+  /* Estilo para el asterisco, oculto por defecto */
+  .form-outline label .required-asterisk {
+    display: none;
+    color: #dc3545; /* rojo Bootstrap */
+  }
+
+  .form-outline input:focus {
+    border-color: #0d6efd;
+    outline: none;
+  }
+
+  /* Label flotante */
+  .form-outline input:focus + label,
+  .form-outline input:not(:placeholder-shown) + label {
+    top: -0.5rem;
+    left: 0.5rem;
+    font-size: 0.75rem;
+    color: #0d6efd;
+  }
+
+  /* Mostrar el asterisco solo cuando el label está flotando */
+  .form-outline input:focus + label .required-asterisk,
+  .form-outline input:not(:placeholder-shown) + label .required-asterisk {
+    display: inline;
+  }
+
+  .btn-primary {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #0b5ed7; /* azul más oscuro */
+  transform: scale(1.05);
+  box-shadow: 0 0.5rem 1rem rgb(13 110 253 / 0.5);
+}
+
+.form-outline input {
+  padding: 1.25rem 0.75rem 0.5rem;
+}
+
+.form-outline input {
+  height: 3rem;          /* altura fija para igualar */
+  padding: 0.75rem 0.75rem 0.75rem 0.75rem;  /* padding uniforme */
+  box-sizing: border-box;  /* para que altura incluya padding y borde */
+}
+
+body {
+  background: linear-gradient(135deg, #f0f2f5 0%, #ffffff 100%);
+}

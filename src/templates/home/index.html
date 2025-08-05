@@ -1,0 +1,111 @@
+{% extends "home/home.html" %}
+
+{% block section %}
+{% include 'include/messages_login.html' %}
+
+<div class="container py-4">
+  <div class="row gx-5 gy-5 justify-content-center">
+
+    <!-- Card Estudiantes -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <a href="{% url 'inventory:list-person' %}" class="text-decoration-none text-dark">
+        <div class="card shadow rounded h-100 hover-shadow p-4 position-relative">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-users fa-3x text-primary me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">Estudiantes</h5>
+              <p class="card-text text-muted mb-0">Total de estudiantes</p>
+            </div>
+          </div>
+          <span class="badge bg-danger position-absolute top-0 end-0 m-3 fs-6">
+            {{ total_persons }}
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Card Cursos -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <a href="{% url 'inventory:list-course' %}" class="text-decoration-none text-dark">
+        <div class="card shadow rounded h-100 hover-shadow p-4 position-relative">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-chalkboard-teacher fa-3x text-success me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">Cursos</h5>
+              <p class="card-text text-muted mb-0">Total de cursos</p>
+            </div>
+          </div>
+          <span class="badge bg-danger position-absolute top-0 end-0 m-3 fs-6">
+            {{ total_courses }}
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Card Materias -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <a href="{% url 'inventory:list-matter' %}" class="text-decoration-none text-dark">
+        <div class="card shadow rounded h-100 hover-shadow p-4 position-relative">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-book fa-3x text-warning me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">Materias</h5>
+              <p class="card-text text-muted mb-0">Total de materias</p>
+            </div>
+          </div>
+          <span class="badge bg-danger position-absolute top-0 end-0 m-3 fs-6">
+            {{ total_matters }}
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Card Computadoras -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <a href="{% url 'inventory:list-computer' %}" class="text-decoration-none text-dark">
+        <div class="card shadow rounded h-100 hover-shadow p-4 position-relative">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-desktop fa-3x text-info me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">Computadoras</h5>
+              <p class="card-text text-muted mb-0">Total de computadoras</p>
+            </div>
+          </div>
+          <span class="badge bg-danger position-absolute top-0 end-0 m-3 fs-6">
+            {{ total_computers }}
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Card Reservas -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <a href="{% url 'inventory:list-assignment' %}" class="text-decoration-none text-dark">
+        <div class="card shadow rounded h-100 hover-shadow p-4 position-relative">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-exchange-alt fa-3x text-danger me-3"></i>
+            <div>
+              <h5 class="card-title mb-1">Reservas</h5>
+              <p class="card-text text-muted mb-0">Total de reservas</p>
+            </div>
+          </div>
+          <span class="badge bg-danger position-absolute top-0 end-0 m-3 fs-6">
+            {{ total_assignments }}
+          </span>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* Sombra hover para las cards */
+  .hover-shadow:hover {
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+    transition: all 0.3s ease;
+  }
+</style>
+
+{% endblock %}

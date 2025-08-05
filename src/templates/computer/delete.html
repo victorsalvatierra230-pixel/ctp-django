@@ -1,0 +1,6 @@
+<h2>¿Estás seguro que deseas eliminar la computadora?</h2>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Sí, eliminar</button>
+  <a href="{% url 'inventory:list-computer' %}">Cancelar</a>
+</form>
