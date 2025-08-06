@@ -1,0 +1,37 @@
+{% extends 'home/home.html' %}
+
+{% block section %}
+{% include 'include/messages.html' %}
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Actualizar Reserva</h3>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <label for="id_dni">DNI:</label>
+              <input type="text" name="dni" value="{{ assignments.person.dni }}" maxlength="100" required="" class="form-control" id="id_dni" disabled>
+            </div>
+              
+            <div class="form-group">
+              <label>Computadora asignada:</label>
+              <input type="text" class="form-control" value="PC #{{ assignments.computer.number }} - {{ assignments.computer.first_name }}" disabled>
+            </div>
+            <div class="form-group">
+              <label for="observation">Observación:</label>
+              <input type="text" name="observation" value="{{ assignments.observation }}" maxlength="255" class="form-control" id="observation">
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+   body {
+      background-color: #f8f9fa;
+    }
+
+    .card {
+      background: #ffffff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      border-radius: 0.75rem;
+    }
+
+    .card-header {
+      text-align: center;
+    }
+
+    .card-body {
+      padding: 2rem;
+    }
+
+    .form-control, .form-select {
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+    }
+
+    .btn-primary {
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #0b5ed7;
+    }
+
+    hr {
+      border: none;
+      height: 3px;
+      background: #0d6efd;
+      width: 60px;
+      margin: 1rem auto;
+    }
+
+
+.logo-underline {
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #00AEEF, #FF6F0F); /* Celeste y naranja TDF */
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.logo-marte {
+  max-width: 150px;   /* tamaño máximo en PC */
+  width: 20vw;        /* ancho relativo al viewport */
+  max-height: 100px;  /* máximo alto */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 4px 3px rgba(0,0,0,0.3)); /* sombra abajo */
+}
+@media (max-width: 768px) {
+  .logo-marte {
+    max-width: 120px;
+    width: 40vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-marte {
+    max-width: 100px;
+    width: 50vw;
+  }
+}

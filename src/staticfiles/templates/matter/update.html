@@ -1,0 +1,38 @@
+{% extends 'home/home.html' %}
+
+{% block section %}
+<div class="container-fluid">
+  <div class="row justify-content-center">    
+    <div class="col-md-6"> 
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Actualizar Materia</h3>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <label for="course">Curso</label>
+              <select name="course" id="course" required class="form-control">
+                {% for course in courses %}
+                  <option value="{{ course.id }}" {% if course.id == matter.course.id %}selected{% endif %}>
+                    {{ course.first_name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="id_first_name">Nombre</label>
+              <input type="text" name="first_name" maxlength="100" required class="form-control"
+                     id="id_first_name" value="{{ matter.first_name }}">
+            </div>   
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

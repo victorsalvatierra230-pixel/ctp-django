@@ -1,0 +1,39 @@
+{% extends 'home/home.html' %}
+
+{% block section %}
+
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white">
+          <h3 class="card-title mb-0">Registrar Estudiante</h3>
+        </div>
+        <form method="post" enctype="multipart/form-data" class="p-4">
+          {% csrf_token %}
+
+          <div class="form-outline">
+            <input type="text" name="first_name" maxlength="100" required id="id_first_name" placeholder=" " />
+            <label for="id_first_name">Nombre<span class="required-asterisk">*</span></label>
+          </div>
+
+          <div class="form-outline">
+            <input type="text" name="last_name" maxlength="100" required id="id_last_name" placeholder=" " />
+            <label for="id_last_name">Apellido<span class="required-asterisk">*</span></label>
+          </div>
+
+          <div class="form-outline">
+            <input type="text" name="dni" maxlength="8" required id="id_dni" placeholder=" " />
+            <label for="id_dni">DNI<span class="required-asterisk">*</span></label>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

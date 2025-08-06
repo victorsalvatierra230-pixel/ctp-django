@@ -1,0 +1,100 @@
+{% extends "home/home.html" %}
+
+{% block section %}
+{% include 'include/messages.html' %}
+
+<section class="container py-4">
+
+  <!-- Cabecera y botón Agregar (ESTILO ORIGINAL) -->
+  <div class="card mb-3">
+    <div class="card-header">
+      <div class="d-flex justify-content-around align-items-center">
+        <h2 class="card-title mb-0">Materias</h2>
+        <a href="{% url 'inventory:create-matter' %}" class="btn btn-primary btn-sm">
+          <i class="fas fa-plus"></i> Agregar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario de búsqueda -->
+  <div class="mb-4">
+    <form method="GET" action="{% url 'inventory:filter-matter' %}" class="input-group">
+      <input type="text" class="form-control" name="search" placeholder="Ej: 7 1" value="{{ request.GET.search }}">
+      <button class="btn btn-outline-primary" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle text-nowrap mb-0">
+          <thead class="bg-primary text-white">
+            <tr>
+              <th style="width: 20%;">Curso</th>
+              <th style="width: 30%;">Nombre</th>
+              <th style="width: 30%;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for matter in matters %}
+              <tr>
+                <td>{{ matter.course.first_name }}</td>
+                <td>{{ matter.first_name }}</td>
+                <td class="text-end">
+                  <div class="btn-group btn-group-sm">
+                    <a href="{% url 'inventory:update-matter' matter.id %}" class="btn btn-outline-primary" title="Editar">
+                      <i class="fas fa-pencil-alt"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="3" class="text-center py-4">No se encontraron materias.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="card-footer">
+      <ul class="pagination pagination-sm m-0 justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <li class="page-item active">
+              <span class="page-link">{{ num }}</span>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+</section>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'home/home.html' %}
+
+{% block section %}
+  {% include 'include/messages.html' %}
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+          <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">Registrar Computadora</h3>
+          </div>
+
+          <div class="card-body">
+
+            <!-- Formulario para seleccionar el curso (GET) -->
+            <form method="get" class="mb-4">
+              <div class="form-outline">
+                <select name="course_id" id="course_id" class="form-control" onchange="this.form.submit()">
+                  <option value="" disabled selected>Seleccione un curso</option>
+                  {% for course in courses %}
+                    <option value="{{ course.id }}" {% if selected_course == course.id %}selected{% endif %}>
+                      {{ course.first_name }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </form>
+
+            <!-- Formulario principal para guardar la asignación (POST) -->
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="hidden" name="course" value="{{ selected_course }}">
+
+              <div class="form-outline mb-4">
+                <select name="matter" id="matter" class="form-control" required>
+                    <option value="" disabled selected>Seleccione una materia</option>
+                  {% if matters %}
+                  
+                    {% for matter in matters %}
+                      <option value="{{ matter.id }}">{{ matter.first_name }}</option>
+                    {% endfor %}
+                  {% else %}
+                    <option disabled>No hay materias para este curso</option>
+                  {% endif %}
+                </select>
+              </div>
+
+              <div class="form-outline mb-4">
+                <input type="text" name="dni" maxlength="100" required id="id_dni" placeholder=" " class="form-control" />
+                <label for="id_dni">DNI<span class="required-asterisk">*</span></label>
+              </div>
+
+              <div class="form-outline mb-4">
+                <select name="computer" id="computer" class="form-control" required>
+                  <option value="" disabled selected>Seleccione una computadora</option>
+                  {% for computer in computers %}
+                    <option value="{{ computer.id }}">{{ computer.number }} - {{ computer.first_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

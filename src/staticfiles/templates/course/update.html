@@ -1,0 +1,27 @@
+{% extends 'home/home.html' %}
+
+{% block section %}
+<div class="container-fluid">
+  <div class="row justify-content-center">    
+    <div class="col-md-6"> 
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Actualizar Curso</h3>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card-body">
+            <div class="form-group">
+              <label for="id_first_name">Nombre</label>
+              <input type="text" name="first_name" value="{{courses.first_name}}" maxlength="100" required class="form-control" id="id_first_name">
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

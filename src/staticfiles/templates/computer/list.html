@@ -1,0 +1,107 @@
+{% extends "home/home.html" %}
+
+{% block section %}
+{% include 'include/messages.html' %}
+
+<section class="container py-4">
+
+  <!-- Cabecera y botón Agregar -->
+  <div class="card mb-3">
+    <div class="card-header">
+      <div class="d-flex justify-content-around align-items-center">
+        <h2 class="card-title mb-0">Computadoras</h2>
+        <a href="{% url 'inventory:create-computer' %}" class="btn btn-primary btn-sm">
+          <i class="fas fa-plus"></i> Agregar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle text-nowrap mb-0">
+          <thead class="bg-primary text-white">
+            <tr>
+              <th style="width: 15%;">Número</th>
+              <th style="width: 20%;">Marca</th>
+              <th style="width: 25%;">Descripción</th>
+              <th style="width: 15%;">Disponible</th>
+              <th style="width: 25%;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for computer in computers %}
+              <tr>
+                <td>{{ computer.number }}</td>
+                <td>{{ computer.first_name }}</td>
+                <td>{{ computer.description }}</td>
+                <td>
+                  {% if computer.is_available %}
+                    <span class="badge bg-success btn-sm">
+                      <i class="fas fa-desktop"></i> Disponible
+                    </span>
+                  {% else %}
+                    <span class="badge bg-danger btn-sm">
+                      <i class="fas fa-user"></i> En uso
+                    </span>
+                  {% endif %}
+                </td>
+                <td class="text-end">
+                  <div class="btn-group btn-group-sm">
+                    <a href="{% url 'inventory:update-computer' computer.id %}" class="btn btn-outline-primary" title="Editar">
+                      <i class="fas fa-pencil-alt"></i>
+                    </a>
+                    <a href="{% url 'inventory:delete-computer' computer.id %}" class="btn btn-outline-danger" title="Eliminar">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="5" class="text-center py-4">No se encontraron computadoras.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="card-footer">
+      <ul class="pagination pagination-sm m-0 justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <li class="page-item active">
+              <span class="page-link">{{ num }}</span>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+</section>
+{% endblock %}
