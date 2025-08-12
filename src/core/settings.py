@@ -76,7 +76,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+# DATABASES = {
+#     'default': dj_database_url.parse(
+#         'postgresql://ctp_db:yFtYF0dh6mCUZYU6JVFXfJKELJFMQT5H@dpg-d299vhfdiees73cghoi0-a.oregon-postgres.render.com/ctp_db',
+#         conn_max_age=600,
+#         ssl_require=True
+#     )
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
