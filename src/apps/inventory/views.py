@@ -182,7 +182,7 @@ class AssignmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.
         context['computers'] = Computer.objects.filter(
             is_available=True,
             is_technical_issue=False
-        )
+        ).order_by('number')
         context['courses'] = Course.objects.filter(is_deleted=False)
 
         course_id = self.request.GET.get('course_id')
@@ -242,7 +242,7 @@ class AssignmentStudentCreateView(generic.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['computers'] = Computer.objects.filter(is_available=True)
+        context['computers'] = Computer.objects.filter(is_available=True).order_by('number')
         context['courses'] = Course.objects.filter(is_deleted=False)
 
         course_id = self.request.GET.get('course_id')

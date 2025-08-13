@@ -33,41 +33,46 @@
             </tr>
           </thead>
           <tbody>
-            {% for assignment in assignments %}
-              <tr>
-                <td>{{ assignment.person.last_name }}, {{ assignment.person.first_name }}</td>
-                <td>{{ assignment.course.first_name }}</td>
-                <td>{{ assignment.computer }}</td>
-                <td>
-                  <form method="post" action="{% url 'inventory:toggle-availability' assignment.computer.id %}" style="display:inline;">
-                    {% csrf_token %}
-                    {% if assignment.computer.is_available %}
-                      <button type="submit" class="btn btn-sm btn-outline-success">
-                        <i class="fas fa-desktop"></i> Disponible
-                      </button>
-                    {% else %}
-                      <button type="submit" class="btn btn-sm btn-outline-danger">
-                        <i class="fas fa-user"></i> En uso
-                      </button>
-                    {% endif %}
-                  </form>
-                </td>
-                <td>{{ assignment.requested_at }}</td>
-                <td>{{ assignment.observation }}</td>
-                <td class="text-end">
-                  <div class="btn-group btn-group-sm">
-                    <a href="{% url 'inventory:update-assignment' assignment.id %}" class="btn btn-outline-primary" title="Editar">
-                      <i class="fas fa-pencil-alt"></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            {% empty %}
-              <tr>
-                <td colspan="7" class="text-center py-4">No hay reservas registradas.</td>
-              </tr>
-            {% endfor %}
-          </tbody>
+          {% for assignment in assignments %}
+            <tr {% if assignment.is_alert %} class="table-warning" {% endif %}>
+              <td>{{ assignment.person.last_name }}, {{ assignment.person.first_name }}</td>
+              <td>{{ assignment.course.first_name }}</td>
+              <td>{{ assignment.computer }}</td>
+              <td>
+                <form method="post" action="{% url 'inventory:toggle-availability' assignment.computer.id %}" style="display:inline;">
+                  {% csrf_token %}
+                  {% if assignment.computer.is_available %}
+                    <button type="submit" class="btn btn-sm btn-outline-success">
+                      <i class="fas fa-desktop"></i> Disponible
+                    </button>
+                  {% else %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                      <i class="fas fa-user"></i> En uso
+                    </button>
+                  {% endif %}
+
+                  {% if assignment.is_alert %}
+                    <span class="badge bg-danger ms-1">⚠️ +2h</span>
+                  {% endif %}
+                </form>
+              </td>
+              <td>{{ assignment.requested_at|date:"d/m/Y H:i" }}</td>
+              <td>{{ assignment.observation }}</td>
+              <td class="text-end">
+                <div class="btn-group btn-group-sm">
+                  <a href="{% url 'inventory:update-assignment' assignment.id %}" class="btn btn-outline-primary" title="Editar">
+                    <i class="fas fa-pencil-alt"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="7" class="text-center py-4">No hay reservas registradas.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+
         </table>
       </div>
     </div>

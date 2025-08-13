@@ -1,4 +1,6 @@
+from datetime import timedelta
 from django.db import models
+from django.utils import timezone
 
 class Computer(models.Model):
     number = models.PositiveIntegerField(unique=True)
@@ -46,3 +48,10 @@ class Assignment(models.Model):
 
     def __str__(self):
         return f"{self.person} - PC #{self.computer.number}"
+
+    @property
+    def is_alert(self):
+        """Retorna True si pasaron más de 2 horas sin devolución"""
+        if not self.returned:
+            return timezone.now() > self.requested_at + timedelta(hours=2)
+        return False
