@@ -44,6 +44,9 @@ class ComputerListView(LoginRequiredMixin, generic.ListView):
         return Computer.objects.filter(is_deleted=False).order_by('number')
        
 class ComputerDeleteView(LoginRequiredMixin, View):
+    permission_required = "inventory.delete_computer" 
+    raise_exception = True
+    
     def post(self, request, pk):
         computer = get_object_or_404(Computer, pk=pk)
         computer.is_deleted = True
@@ -57,6 +60,9 @@ class ComputerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Up
     template_name = 'computer/update.html'
     success_url = reverse_lazy('inventory:list-computer')
     context_object_name = 'computers'
+    
+    permission_required = "inventory.update_computer" 
+    raise_exception = True
 
     
     def get_success_url(self) -> str:
@@ -68,6 +74,9 @@ class PersonCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
     fields = '__all__'
     template_name = 'person/create.html'
     success_url = reverse_lazy('inventory:list-person')
+    
+    permission_required = "inventory.add_person" 
+    raise_exception = True
     
     def get_success_url(self) -> str:
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
@@ -83,6 +92,8 @@ class PersonListView(LoginRequiredMixin, generic.ListView):
         return Person.objects.filter(is_deleted=False)
     
 class PersonDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = "inventory.delete_person" 
+    raise_exception = True
     def post(self, request, pk):
         person = get_object_or_404(Person, pk=pk)
         person.is_deleted = True
@@ -97,6 +108,9 @@ class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     template_name = 'person/update.html'
     success_url = reverse_lazy('inventory:list-person')
     context_object_name = 'persons'
+    
+    permission_required = "inventory.update_person" 
+    raise_exception = True
 
     def get_success_url(self) -> str:
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
@@ -107,6 +121,7 @@ class MatterListFilterView(LoginRequiredMixin, generic.ListView):
     model = Matter
     template_name = 'matter/list.html'
     context_object_name = 'matters'
+    
    
     def get_queryset(self):
         queryset = Matter.objects.filter(is_deleted=False)
@@ -121,6 +136,9 @@ class AssignmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.
     fields = ['computer']  # el resto los capturas por POST directamente o con campos ocultos
     template_name = 'assignment/create.html'
     success_url = reverse_lazy('inventory:list-assignment')
+    
+    permission_required = "inventory.add_assignment" 
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -282,6 +300,9 @@ class CourseCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
     fields = '__all__'
     template_name = 'course/create.html'
     success_url = reverse_lazy('inventory:list-course')
+    
+    permission_required = "inventory.add_course" 
+    raise_exception = True
 
     def get_success_url(self):
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
@@ -302,6 +323,9 @@ class CourseUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     template_name = 'course/update.html'
     context_object_name = 'courses'
     success_url = reverse_lazy('inventory:list-course')
+    
+    permission_required = "inventory.update_course" 
+    raise_exception = True
 
     def get_success_url(self):
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
@@ -313,6 +337,9 @@ class MatterCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
     fields = '__all__'
     template_name = 'matter/create.html'
     success_url = reverse_lazy('inventory:list-matter')
+    
+    permission_required = "inventory.add_matter" 
+    raise_exception = True
 
     def get_success_url(self):
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
@@ -340,6 +367,9 @@ class MatterUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     template_name = 'matter/update.html'
     context_object_name = 'matter'
     success_url = reverse_lazy('inventory:list-matter')
+    
+    permission_required = "inventory.update_matter" 
+    raise_exception = True
 
     def get_success_url(self):
         messages.success(self.request, "¡Materia actualizada con éxito!")
