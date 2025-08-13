@@ -20,7 +20,7 @@
   <!-- Formulario de búsqueda -->
   <div class="mb-4">
     <form method="GET" action="{% url 'inventory:filter-matter' %}" class="input-group">
-      <input type="text" class="form-control" name="search" placeholder="Ej: 7 1" value="{{ request.GET.search }}">
+      <input type="text" class="form-control" name="search" placeholder="Buscar curso..." value="{{ request.GET.search }}">
       <button class="btn btn-outline-primary" type="submit">
         <i class="fas fa-search"></i>
       </button>

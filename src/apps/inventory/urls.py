@@ -1,5 +1,5 @@
 from django.urls import path
-from apps.inventory.views import AssignmentListView, AssignmentStudentCreateView, AssignmentUpdateView, ComputerCreateView, CourseCreateView, CourseListView, CourseUpdateView, MatterCreateView, MatterListFilterView, MatterListView, MatterUpdateView, ToggleAvailabilityView
+from apps.inventory.views import AssignmentListView, AssignmentStudentCreateView, AssignmentUpdateView, ComputerCreateView, CourseCreateView, CourseListView, CourseUpdateView, MatterCreateView, MatterListFilterView, MatterListView, MatterUpdateView, PersonListFilterView, ToggleAvailabilityView
 from apps.inventory.views import ComputerListView
 from apps.inventory.views import ComputerDeleteView
 from apps.inventory.views import ComputerUpdateView
@@ -23,7 +23,8 @@ urlpatterns = [
     path('person/list/', PersonListView.as_view(), name='list-person'),
     path('person/delete/<int:pk>', PersonDeleteView.as_view(), name='delete-person'),
     path('person/update/<int:pk>', PersonUpdateView.as_view(), name='update-person'),
-    path('search/', MatterListFilterView.as_view(), name='filter-matter'),
+    path('person/search/', PersonListFilterView.as_view(), name='filter-person'),
+    
     
     path('assignment/create/', AssignmentCreateView.as_view(), name='create-assignment'),
     path('assignment/list/', AssignmentListView.as_view(), name='list-assignment'),
@@ -38,6 +39,7 @@ urlpatterns = [
     path('matter/create/', MatterCreateView.as_view(), name='create-matter'),
     path('matter/list/', MatterListView.as_view(), name='list-matter'),
     path('matter/update/<int:pk>',  MatterUpdateView.as_view(), name='update-matter'),
+    path('matter/search/', MatterListFilterView.as_view(), name='filter-matter'),
 ]
 
 

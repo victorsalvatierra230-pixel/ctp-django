@@ -46,7 +46,7 @@ class ComputerListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Computer.objects.filter(is_deleted=False).order_by('number')
        
-class ComputerDeleteView(LoginRequiredMixin, View):
+class ComputerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = "inventory.delete_computer" 
     raise_exception = False  # no lanza 403
     def handle_no_permission(self):
@@ -133,6 +133,22 @@ class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     def get_success_url(self) -> str:
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
         return super().get_success_url() 
+    
+    
+class PersonListFilterView(LoginRequiredMixin, generic.ListView):
+    model = Person
+    template_name = 'person/list.html'
+    context_object_name = 'persons'
+    
+    def get_queryset(self):
+        queryset = Person.objects.filter(is_deleted=False)
+        search = self.request.GET.get('search')
+
+        if search:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search) | Q(last_name__icontains=search)
+            ).distinct()
+        return queryset
 
 
 class MatterListFilterView(LoginRequiredMixin, generic.ListView):

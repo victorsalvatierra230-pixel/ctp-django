@@ -20,8 +20,8 @@
         </div>
     </div>
 
-  <!-- Formulario de búsqueda -->
-  <form method="get" class="input-group mb-4">
+<!-- Formulario de búsqueda -->
+  <form method="get"  action="{% url 'inventory:filter-person' %}" class="input-group mb-4">
     <input type="text" name="search" value="{{ request.GET.search }}" class="form-control" placeholder="Buscar estudiante...">
     <button class="btn btn-outline-primary" type="submit">
       <i class="fas fa-search"></i>
