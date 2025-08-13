@@ -39,7 +39,7 @@ class ComputerListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
     
     def get_queryset(self):
-        return Computer.objects.filter(is_deleted=False)
+        return Computer.objects.filter(is_deleted=False).order_by('number')
        
 class ComputerDeleteView(LoginRequiredMixin, View):
     def post(self, request, pk):
