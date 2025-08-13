@@ -17,7 +17,10 @@ class ComputerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cr
     template_name = 'computer/create.html'
     success_url = reverse_lazy('inventory:list-computer')
     permission_required = "inventory.add_computer" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "❌ No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-computer') 
 
     def get_success_url(self):
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
