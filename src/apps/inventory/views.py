@@ -6,12 +6,12 @@ from apps.inventory.models import Assignment, Computer, Course, Matter, Person
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
 
 # Create your views here.
 
-class ComputerCreateView(LoginRequiredMixin, generic.CreateView):
+class ComputerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Computer
     fields = '__all__'
     template_name = 'computer/create.html'
@@ -32,7 +32,7 @@ class ComputerCreateView(LoginRequiredMixin, generic.CreateView):
             return self.form_invalid(form)
 
     
-class ComputerListView(LoginRequiredMixin, generic.ListView):
+class ComputerListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Computer
     template_name = 'computer/list.html'
     context_object_name = 'computers'
@@ -49,7 +49,7 @@ class ComputerDeleteView(LoginRequiredMixin, View):
         messages.success(request, "¡¡Se ha eliminado con éxito!!")
         return redirect('inventory:list-computer')
 
-class ComputerUpdateView(LoginRequiredMixin, generic.UpdateView):
+class ComputerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Computer
     fields = '__all__'
     template_name = 'computer/update.html'
@@ -61,7 +61,7 @@ class ComputerUpdateView(LoginRequiredMixin, generic.UpdateView):
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
         return super().get_success_url()
 
-class PersonCreateView(LoginRequiredMixin, generic.CreateView):
+class PersonCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Person
     fields = '__all__'
     template_name = 'person/create.html'
@@ -71,7 +71,7 @@ class PersonCreateView(LoginRequiredMixin, generic.CreateView):
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
         return super().get_success_url()
     
-class PersonListView(LoginRequiredMixin, generic.ListView):
+class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Person
     template_name = 'person/list.html'
     context_object_name = 'persons'
@@ -80,7 +80,7 @@ class PersonListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Person.objects.filter(is_deleted=False)
     
-class PersonDeleteView(LoginRequiredMixin, View):
+class PersonDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def post(self, request, pk):
         person = get_object_or_404(Person, pk=pk)
         person.is_deleted = True
@@ -89,7 +89,7 @@ class PersonDeleteView(LoginRequiredMixin, View):
         return redirect('inventory:list-person')
 
 
-class PersonUpdateView(LoginRequiredMixin, generic.UpdateView):
+class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Person
     fields = '__all__'
     template_name = 'person/update.html'
@@ -101,7 +101,7 @@ class PersonUpdateView(LoginRequiredMixin, generic.UpdateView):
         return super().get_success_url() 
 
 
-class MatterListFilterView(LoginRequiredMixin, generic.ListView):
+class MatterListFilterView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Matter
     template_name = 'matter/list.html'
     context_object_name = 'matters'
@@ -114,7 +114,7 @@ class MatterListFilterView(LoginRequiredMixin, generic.ListView):
             queryset = queryset.filter(Q(course__first_name__icontains=search)).distinct()
         return queryset
     
-class AssignmentCreateView(LoginRequiredMixin, generic.CreateView):
+class AssignmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Assignment
     fields = ['computer']  # el resto los capturas por POST directamente o con campos ocultos
     template_name = 'assignment/create.html'
@@ -236,7 +236,7 @@ class AssignmentStudentCreateView(generic.CreateView):
 
 
         
-class AssignmentListView(LoginRequiredMixin, generic.ListView):
+class AssignmentListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Assignment
     template_name = 'assignment/list.html'
     context_object_name = 'assignments'
@@ -256,7 +256,7 @@ class AssignmentUpdateView(LoginRequiredMixin,generic.UpdateView):
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
         return super().get_success_url()
 
-class ToggleAvailabilityView(LoginRequiredMixin, View):
+class ToggleAvailabilityView(LoginRequiredMixin, PermissionRequiredMixin, View):
     def post(self, request, pk):
         computer = get_object_or_404(Computer, pk=pk)
 
@@ -275,7 +275,7 @@ class ToggleAvailabilityView(LoginRequiredMixin, View):
 
         return redirect(request.META.get('HTTP_REFERER', reverse_lazy('inventory:list-computer')))
 
-class CourseCreateView(LoginRequiredMixin, generic.CreateView):
+class CourseCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Course
     fields = '__all__'
     template_name = 'course/create.html'
@@ -285,7 +285,7 @@ class CourseCreateView(LoginRequiredMixin, generic.CreateView):
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
         return super().get_success_url()
 
-class CourseListView(LoginRequiredMixin, generic.ListView):
+class CourseListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Course
     template_name = 'course/list.html'
     context_object_name = 'courses'
@@ -294,7 +294,7 @@ class CourseListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Course.objects.filter(is_deleted=False)
 
-class CourseUpdateView(LoginRequiredMixin, generic.UpdateView):
+class CourseUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Course
     fields = '__all__'
     template_name = 'course/update.html'
@@ -306,7 +306,7 @@ class CourseUpdateView(LoginRequiredMixin, generic.UpdateView):
         return super().get_success_url()
 
 
-class MatterCreateView(LoginRequiredMixin, generic.CreateView):
+class MatterCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Matter
     fields = '__all__'
     template_name = 'matter/create.html'
@@ -322,7 +322,7 @@ class MatterCreateView(LoginRequiredMixin, generic.CreateView):
         return context
 
 
-class MatterListView(LoginRequiredMixin, generic.ListView):
+class MatterListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     model = Matter
     template_name = 'matter/list.html'
     context_object_name = 'matters'
@@ -332,7 +332,7 @@ class MatterListView(LoginRequiredMixin, generic.ListView):
         return Matter.objects.filter(is_deleted=False)
 
 
-class MatterUpdateView(LoginRequiredMixin, generic.UpdateView):
+class MatterUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Matter
     fields = '__all__'
     template_name = 'matter/update.html'
