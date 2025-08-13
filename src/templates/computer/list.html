@@ -37,17 +37,13 @@
                 <td>{{ computer.number }}</td>
                 <td>{{ computer.first_name }}</td>
                 <td>{{ computer.description }}</td>
-               <td>
-                  {% if computer.is_technical_issue %}
-                    <span class="badge bg-danger btn-sm">
-                      <i class="fas fa-tools"></i> Problema técnico
-                    </span>
-                  {% elif computer.is_available %}
+                <td>
+                  {% if computer.is_available %}
                     <span class="badge bg-success btn-sm">
                       <i class="fas fa-desktop"></i> Disponible
                     </span>
                   {% else %}
-                    <span class="badge bg-warning btn-sm">
+                    <span class="badge bg-danger btn-sm">
                       <i class="fas fa-user"></i> En uso
                     </span>
                   {% endif %}
