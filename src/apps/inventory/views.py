@@ -32,7 +32,7 @@ class ComputerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cr
             return self.form_invalid(form)
 
     
-class ComputerListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class ComputerListView(LoginRequiredMixin, generic.ListView):
     model = Computer
     template_name = 'computer/list.html'
     context_object_name = 'computers'
@@ -71,7 +71,7 @@ class PersonCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
         return super().get_success_url()
     
-class PersonListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class PersonListView(LoginRequiredMixin, generic.ListView):
     model = Person
     template_name = 'person/list.html'
     context_object_name = 'persons'
@@ -101,7 +101,7 @@ class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
         return super().get_success_url() 
 
 
-class MatterListFilterView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class MatterListFilterView(LoginRequiredMixin, generic.ListView):
     model = Matter
     template_name = 'matter/list.html'
     context_object_name = 'matters'
@@ -236,7 +236,7 @@ class AssignmentStudentCreateView(generic.CreateView):
 
 
         
-class AssignmentListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class AssignmentListView(LoginRequiredMixin, generic.ListView):
     model = Assignment
     template_name = 'assignment/list.html'
     context_object_name = 'assignments'
@@ -256,7 +256,7 @@ class AssignmentUpdateView(LoginRequiredMixin,generic.UpdateView):
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
         return super().get_success_url()
 
-class ToggleAvailabilityView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class ToggleAvailabilityView(LoginRequiredMixin, View):
     def post(self, request, pk):
         computer = get_object_or_404(Computer, pk=pk)
 
@@ -285,7 +285,7 @@ class CourseCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
         return super().get_success_url()
 
-class CourseListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class CourseListView(LoginRequiredMixin, generic.ListView):
     model = Course
     template_name = 'course/list.html'
     context_object_name = 'courses'
@@ -322,7 +322,7 @@ class MatterCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
         return context
 
 
-class MatterListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class MatterListView(LoginRequiredMixin, generic.ListView):
     model = Matter
     template_name = 'matter/list.html'
     context_object_name = 'matters'
