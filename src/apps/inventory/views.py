@@ -16,6 +16,8 @@ class ComputerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cr
     fields = '__all__'
     template_name = 'computer/create.html'
     success_url = reverse_lazy('inventory:list-computer')
+    permission_required = "inventory.add_computer" 
+    raise_exception = True
 
     def get_success_url(self):
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
