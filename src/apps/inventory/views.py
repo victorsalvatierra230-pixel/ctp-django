@@ -19,7 +19,7 @@ class ComputerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cr
     permission_required = "inventory.add_computer" 
     raise_exception = False  # no lanza 403
     def handle_no_permission(self):
-        messages.error(self.request, "❌ No tenés permiso para realizar esta acción.")
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
         return redirect('inventory:list-computer') 
 
     def get_success_url(self):
@@ -48,7 +48,10 @@ class ComputerListView(LoginRequiredMixin, generic.ListView):
        
 class ComputerDeleteView(LoginRequiredMixin, View):
     permission_required = "inventory.delete_computer" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-computer') 
     
     def post(self, request, pk):
         computer = get_object_or_404(Computer, pk=pk)
@@ -65,7 +68,10 @@ class ComputerUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Up
     context_object_name = 'computers'
     
     permission_required = "inventory.update_computer" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-computer') 
 
     
     def get_success_url(self) -> str:
@@ -79,7 +85,10 @@ class PersonCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
     success_url = reverse_lazy('inventory:list-person')
     
     permission_required = "inventory.add_person" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-person') 
     
     def get_success_url(self) -> str:
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
@@ -96,7 +105,10 @@ class PersonListView(LoginRequiredMixin, generic.ListView):
     
 class PersonDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = "inventory.delete_person" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-person') 
     def post(self, request, pk):
         person = get_object_or_404(Person, pk=pk)
         person.is_deleted = True
@@ -113,7 +125,10 @@ class PersonUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     context_object_name = 'persons'
     
     permission_required = "inventory.update_person" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-person') 
 
     def get_success_url(self) -> str:
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
@@ -141,7 +156,10 @@ class AssignmentCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.
     success_url = reverse_lazy('inventory:list-assignment')
     
     permission_required = "inventory.add_assignment" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-assignment') 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -268,12 +286,17 @@ class AssignmentListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Assignment.objects.filter(is_deleted=False)
 
-class AssignmentUpdateView(LoginRequiredMixin,generic.UpdateView):
+class AssignmentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Assignment
     fields = ('observation',)
     template_name = 'assignment/update.html'
     context_object_name = 'assignments'
     success_url = reverse_lazy('inventory:list-assignment')
+    permission_required = "inventory.update_assignment" 
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-assignment') 
 
     def get_success_url(self) -> str:
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
@@ -305,8 +328,11 @@ class CourseCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
     success_url = reverse_lazy('inventory:list-course')
     
     permission_required = "inventory.add_course" 
-    raise_exception = True
-
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-course') 
+    
     def get_success_url(self):
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
         return super().get_success_url()
@@ -328,7 +354,10 @@ class CourseUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     success_url = reverse_lazy('inventory:list-course')
     
     permission_required = "inventory.update_course" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-course') 
 
     def get_success_url(self):
         messages.success(self.request, "¡¡Se ha actualizado con éxito!!")
@@ -342,7 +371,10 @@ class MatterCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
     success_url = reverse_lazy('inventory:list-matter')
     
     permission_required = "inventory.add_matter" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-matter') 
 
     def get_success_url(self):
         messages.success(self.request, "¡¡Se ha creado con éxito!!")
@@ -372,7 +404,10 @@ class MatterUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     success_url = reverse_lazy('inventory:list-matter')
     
     permission_required = "inventory.update_matter" 
-    raise_exception = True
+    raise_exception = False  # no lanza 403
+    def handle_no_permission(self):
+        messages.error(self.request, "No tenés permiso para realizar esta acción.")
+        return redirect('inventory:list-matter') 
 
     def get_success_url(self):
         messages.success(self.request, "¡Materia actualizada con éxito!")
