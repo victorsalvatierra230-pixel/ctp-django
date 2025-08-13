@@ -28,6 +28,11 @@
                 <input type="checkbox" name="is_available" class="form-check-input" id="id_is_available" checked>
                 <label class="form-check-label" for="id_is_available">Disponible</label>
             </div>
+            <div class="form-group form-check">
+            <input type="checkbox" name="is_technical_issue" class="form-check-input" id="id_is_technical_issue"
+                  {% if computers.is_technical_issue %}checked{% endif %}>
+            <label class="form-check-label" for="id_is_technical_issue">Problema Técnico</label>
+          </div>
           </div>
           <div class="card-footer">
             <button type="submit" class="btn btn-primary">Guardar</button>

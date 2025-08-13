@@ -122,7 +122,10 @@ class AssignmentCreateView(LoginRequiredMixin, generic.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['computers'] = Computer.objects.filter(is_available=True)
+        context['computers'] = Computer.objects.filter(
+            is_available=True,
+            is_technical_issue=False
+        )
         context['courses'] = Course.objects.filter(is_deleted=False)
 
         course_id = self.request.GET.get('course_id')
@@ -155,9 +158,12 @@ class AssignmentCreateView(LoginRequiredMixin, generic.CreateView):
             return self.form_invalid(form)
 
         computer = form.cleaned_data['computer']
-        if not computer.is_available:
+        if not computer.is_available or computer.is_technical_issue:
             form.add_error('computer', 'La computadora seleccionada no está disponible.')
             return self.form_invalid(form)
+        computer = form.cleaned_data['computer']
+
+        
 
         assignment = form.save(commit=False)
         assignment.person = person
