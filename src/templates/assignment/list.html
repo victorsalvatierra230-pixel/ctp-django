@@ -57,8 +57,8 @@
               <td>{{ assignment.requested_at|date:"d/m/Y H:i" }}</td>
               <td>{{ assignment.observation }}</td>
             <td>
-              {% if assignment.is_alert %}
-                <span class="badge bg-danger ms-1" title="Más de 2 horas con la PC">⚠️</span>
+             {% if assignment.is_alert %}
+                <span style="font-size: 2rem;" title="Más de 2 horas con la PC">⚠️</span>
               {% endif %}
             </td>
               <td class="text-end">
