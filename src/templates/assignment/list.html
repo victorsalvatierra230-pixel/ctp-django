@@ -58,12 +58,8 @@
               <td>{{ assignment.observation }}</td>
             <td>
               {% if assignment.is_alert %}
-              <td>
-                {% if assignment.is_alert %}
-                  <button type="button" class="btn btn-outline-danger p-1" style="font-size: 1.5rem;" title="Más de 2 horas con la PC">
-                    <i class="fas fa-exclamation-triangle"></i>
-                  </button>
-                {% endif %}
+                <span class="badge bg-danger ms-1" title="Más de 2 horas con la PC">⚠️</span>
+              {% endif %}
             </td>
               <td class="text-end">
                 <div class="btn-group btn-group-sm">
