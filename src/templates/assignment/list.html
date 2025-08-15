@@ -119,39 +119,34 @@
 function loadAssignments() {
     const tbody = document.querySelector("#assignment-tbody");
     const updateBase = tbody.dataset.updateUrl;
-
     fetch("{% url 'inventory:assignment_list_ajax' %}")
     .then(response => response.json())
     .then(data => {
-        tbody.innerHTML = ""; // limpia tabla antes de llenarla
+        let tbody = document.querySelector("#assignment-table tbody");
+        tbody.innerHTML = "";
         data.assignments.forEach(a => {
-            const row = `
-                <tr ${a.alert ? 'class="table-warning"' : ''}>
-                    <td>${a.student_last_name}, ${a.student_first_name}</td>
-                    <td>${a.course}</td>
-                    <td>${a.pc}</td>
-                    <td>
-                        <button class="btn btn-sm ${a.returned ? 'btn-outline-success' : 'btn-outline-danger'} toggle-availability-btn" data-url="/inventory/toggle-availability/${a.pc_id}/">
-                            <i class="fas fa-desktop"></i> ${a.returned ? 'Disponible' : 'En uso'}
-                        </button>
-                    </td>
-                    <td>${a.requested_at}</td>
-                    <td>${a.observation ?? ''}</td>
-                    <td>${a.alert ? '⚠️' : ''}</td>
-                    <td class="text-end">
-                        <a href="${updateBase.replace('0', a.id)}" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-pencil-alt"></i>
-                        </a>
-                    </td>
-                </tr>
-            `;
+      let row = `
+              <tr ${a.is_alert ? 'class="table-warning"' : ''}>
+                  <td>${a.last_name}, ${a.first_name}</td>
+                  <td>${a.course}</td>
+                  <td>${a.computer}</td>
+                  <td>${a.is_available ? 
+                      '<button class="btn btn-sm btn-outline-success"><i class="fas fa-desktop"></i> Disponible</button>' :
+                      '<button class="btn btn-sm btn-outline-danger"><i class="fas fa-user"></i> En uso</button>'}
+                  </td>
+                  <td>${a.requested_at}</td>
+                  <td>${a.observation ?? ''}</td>
+                  <td>${a.is_alert ? '⚠️' : ''}</td>
+                  <td class="text-end">
+                  <a href="${updateBase.replace('0', a.id)}" class="btn btn-outline-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>                  </td>
+              </tr>`;
             tbody.innerHTML += row;
         });
     });
 }
 
-// Llamada inicial y auto-refresh cada 5 segundos
-loadAssignments();
+// Actualiza cada 5 segundos
 setInterval(loadAssignments, 5000);
+loadAssignments(); // carga inicial
 </script>
 {% endblock %}
