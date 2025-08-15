@@ -301,6 +301,23 @@ class AssignmentListView(LoginRequiredMixin, generic.ListView):
     
     def get_queryset(self):
         return Assignment.objects.filter(is_deleted=False)
+    
+    
+class AssignmentListAjaxView(LoginRequiredMixin, View):
+    def get(self, request):
+        assignments = Assignment.objects.filter(is_deleted=False).select_related('computer', 'person', 'course')
+        data = []
+        for a in assignments:
+            data.append({
+                "pc": a.computer.number,
+                "student": f"{a.person.first_name} {a.person.last_name}",
+                "dni": a.person.dni,
+                "course": a.course.first_name,
+                "requested_at": a.requested_at.strftime("%H:%M"),
+                "returned": a.returned,
+                "alert": a.is_alert,
+            })
+        return JsonResponse({"assignments": data})
 
 class AssignmentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Assignment

@@ -1,5 +1,5 @@
 from django.urls import path
-from apps.inventory.views import AssignmentListView, AssignmentStudentCreateView, AssignmentUpdateView, ComputerCreateView, CourseCreateView, CourseListView, CourseUpdateView, MatterCreateView, MatterListFilterView, MatterListView, MatterUpdateView, PersonListFilterView, ToggleAvailabilityView
+from apps.inventory.views import AssignmentListAjaxView, AssignmentListView, AssignmentStudentCreateView, AssignmentUpdateView, ComputerCreateView, CourseCreateView, CourseListView, CourseUpdateView, MatterCreateView, MatterListFilterView, MatterListView, MatterUpdateView, PersonListFilterView, ToggleAvailabilityView
 from apps.inventory.views import ComputerListView
 from apps.inventory.views import ComputerDeleteView
 from apps.inventory.views import ComputerUpdateView
@@ -28,6 +28,7 @@ urlpatterns = [
     
     path('assignment/create/', AssignmentCreateView.as_view(), name='create-assignment'),
     path('assignment/list/', AssignmentListView.as_view(), name='list-assignment'),
+    path('assignments/ajax/', AssignmentListAjaxView.as_view(), name='assignment_list_ajax'),
     path('assignment/update/<int:pk>',  AssignmentUpdateView.as_view(), name='update-assignment'),
     path('computer/<int:pk>/toggle/', ToggleAvailabilityView.as_view(), name='toggle-availability'),
     path('assignment/student/create/', AssignmentStudentCreateView.as_view(), name='create-assignment-student'),
