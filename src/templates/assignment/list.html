@@ -33,7 +33,8 @@
               <th style="width: 15%;">Acciones</th>
             </tr>
           </thead>
-        <tbody id="assignment-tbody" data-update-url="{% url 'inventory:update-assignment' 0 %}"></tbody>
+       <tbody id="assignment-tbody" data-update-url="{% url 'inventory:update-assignment' 0 %}" 
+       data-toggle-url="{% url 'inventory:toggle-availability' 0 %}"></tbody>
         </table>
       </div>
     </div>
@@ -74,37 +75,59 @@
 </section>
 
 <script>
+const csrfToken = '{{ csrf_token }}';  // Token CSRF
+
 function loadAssignments() {
     const tbody = document.querySelector("#assignment-tbody");
     const updateBase = tbody.dataset.updateUrl;
+    const toggleBase = tbody.dataset.toggleUrl;
+
     fetch("{% url 'inventory:assignment_list_ajax' %}")
     .then(response => response.json())
     .then(data => {
-        let tbody = document.querySelector("#assignment-table tbody");
         tbody.innerHTML = "";
         data.assignments.forEach(a => {
-      let row = `
+            let availabilityBtn = a.is_available ?
+                `<button class="btn btn-sm btn-outline-success" onclick="toggleAvailability(${a.computer_id})">
+                    <i class="fas fa-desktop"></i> Disponible
+                 </button>` :
+                `<button class="btn btn-sm btn-outline-danger" onclick="toggleAvailability(${a.computer_id})">
+                    <i class="fas fa-user"></i> En uso
+                 </button>`;
+
+            let row = `
               <tr ${a.is_alert ? 'class="table-warning"' : ''}>
                   <td>${a.last_name}, ${a.first_name}</td>
                   <td>${a.course}</td>
                   <td>${a.computer}</td>
-                  <td>${a.is_available ? 
-                      '<button class="btn btn-sm btn-outline-success"><i class="fas fa-desktop"></i> Disponible</button>' :
-                      '<button class="btn btn-sm btn-outline-danger"><i class="fas fa-user"></i> En uso</button>'}
-                  </td>
+                  <td>${availabilityBtn}</td>
                   <td>${a.requested_at}</td>
                   <td>${a.observation ?? ''}</td>
                   <td>${a.is_alert ? '⚠️' : ''}</td>
                   <td class="text-end">
-                  <a href="${updateBase.replace('0', a.id)}" class="btn btn-outline-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>                  </td>
+                    <a href="${updateBase.replace('0', a.id)}" class="btn btn-outline-primary btn-sm">
+                      <i class="fas fa-pencil-alt"></i>
+                    </a>
+                  </td>
               </tr>`;
             tbody.innerHTML += row;
         });
     });
 }
 
+// Función para cambiar disponibilidad
+function toggleAvailability(computerId) {
+    const toggleBase = document.querySelector("#assignment-tbody").dataset.toggleUrl;
+    fetch(toggleBase.replace('0', computerId), {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrfToken }
+    }).then(() => loadAssignments());
+}
+
 // Actualiza cada 5 segundos
 setInterval(loadAssignments, 5000);
-loadAssignments(); // carga inicial
+loadAssignments();
 </script>
+
+
 {% endblock %}

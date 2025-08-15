@@ -346,16 +346,20 @@ class ToggleAvailabilityView(LoginRequiredMixin, View):
         computer.is_available = not computer.is_available
         computer.save()
 
-        # Si se volvió disponible, marcamos el assignment como eliminado
+        # Si se volvió disponible, marcamos la asignación como devuelta
         if computer.is_available:
             assignment = Assignment.objects.filter(computer=computer, returned=False, is_deleted=False).first()
             if assignment:
                 assignment.is_deleted = True
-                assignment.returned = True  # opcional, si querés marcarlo como devuelto también
+                assignment.returned = True
                 assignment.returned_at = timezone.now()
                 assignment.save()
 
-        return redirect(request.META.get('HTTP_REFERER', reverse_lazy('inventory:list-computer')))
+        # Retornar estado actual para que el JS pueda actualizar la tabla
+        return JsonResponse({
+            "computer_id": computer.id,
+            "is_available": computer.is_available
+        })
 
 class CourseCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Course
