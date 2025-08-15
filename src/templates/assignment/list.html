@@ -33,7 +33,7 @@
               <th style="width: 15%;">Acciones</th>
             </tr>
           </thead>
-        <tbody id="assignment-table" data-update-url="{% url 'inventory:update-assignment' 0 %}"></tbody>
+        <tbody id="assignment-tbody" data-update-url="{% url 'inventory:update-assignment' 0 %}"></tbody>
           {% for assignment in assignments %}
             <tr {% if assignment.is_alert %} class="table-warning" {% endif %}>
               <td>{{ assignment.person.last_name }}, {{ assignment.person.first_name }}</td>
@@ -117,35 +117,41 @@
 
 <script>
 function loadAssignments() {
-    const updateBase = document.querySelector("#assignment-table").dataset.updateUrl;
+    const tbody = document.querySelector("#assignment-tbody");
+    const updateBase = tbody.dataset.updateUrl;
+
     fetch("{% url 'inventory:assignment_list_ajax' %}")
     .then(response => response.json())
     .then(data => {
-        let tbody = document.querySelector("#assignment-table tbody");
-        tbody.innerHTML = "";
+        tbody.innerHTML = ""; // limpia tabla antes de llenarla
         data.assignments.forEach(a => {
-      let row = `
-              <tr ${a.is_alert ? 'class="table-warning"' : ''}>
-                  <td>${a.last_name}, ${a.first_name}</td>
-                  <td>${a.course}</td>
-                  <td>${a.computer}</td>
-                  <td>${a.is_available ? 
-                      '<button class="btn btn-sm btn-outline-success"><i class="fas fa-desktop"></i> Disponible</button>' :
-                      '<button class="btn btn-sm btn-outline-danger"><i class="fas fa-user"></i> En uso</button>'}
-                  </td>
-                  <td>${a.requested_at}</td>
-                  <td>${a.observation ?? ''}</td>
-                  <td>${a.is_alert ? '⚠️' : ''}</td>
-                  <td class="text-end">
-                  <a href="${updateBase.replace('0', a.id)}" class="btn btn-outline-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>                  </td>
-              </tr>`;
+            const row = `
+                <tr ${a.alert ? 'class="table-warning"' : ''}>
+                    <td>${a.student_last_name}, ${a.student_first_name}</td>
+                    <td>${a.course}</td>
+                    <td>${a.pc}</td>
+                    <td>
+                        <button class="btn btn-sm ${a.returned ? 'btn-outline-success' : 'btn-outline-danger'} toggle-availability-btn" data-url="/inventory/toggle-availability/${a.pc_id}/">
+                            <i class="fas fa-desktop"></i> ${a.returned ? 'Disponible' : 'En uso'}
+                        </button>
+                    </td>
+                    <td>${a.requested_at}</td>
+                    <td>${a.observation ?? ''}</td>
+                    <td>${a.alert ? '⚠️' : ''}</td>
+                    <td class="text-end">
+                        <a href="${updateBase.replace('0', a.id)}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            `;
             tbody.innerHTML += row;
         });
     });
 }
 
-// Actualiza cada 5 segundos
+// Llamada inicial y auto-refresh cada 5 segundos
+loadAssignments();
 setInterval(loadAssignments, 5000);
-loadAssignments(); // carga inicial
 </script>
 {% endblock %}
