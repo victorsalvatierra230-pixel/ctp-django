@@ -33,7 +33,7 @@
               <th style="width: 15%;">Acciones</th>
             </tr>
           </thead>
-          <tbody>
+        <tbody id="assignment-table" data-update-url="{% url 'inventory:update-assignment' 0 %}"></tbody>
           {% for assignment in assignments %}
             <tr {% if assignment.is_alert %} class="table-warning" {% endif %}>
               <td>{{ assignment.person.last_name }}, {{ assignment.person.first_name }}</td>
@@ -117,6 +117,7 @@
 
 <script>
 function loadAssignments() {
+    const updateBase = document.querySelector("#assignment-table").dataset.updateUrl;
     fetch("{% url 'inventory:assignment_list_ajax' %}")
     .then(response => response.json())
     .then(data => {
@@ -136,8 +137,7 @@ function loadAssignments() {
                   <td>${a.observation ?? ''}</td>
                   <td>${a.is_alert ? '⚠️' : ''}</td>
                   <td class="text-end">
-                      <a href="'assignment/update/${a.id}/" class="btn btn-outline-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                  </td>
+                  <a href="${updateBase.replace('0', a.id)}" class="btn btn-outline-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>                  </td>
               </tr>`;
             tbody.innerHTML += row;
         });
