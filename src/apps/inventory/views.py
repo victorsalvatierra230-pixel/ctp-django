@@ -309,13 +309,15 @@ class AssignmentListAjaxView(LoginRequiredMixin, View):
         data = []
         for a in assignments:
             data.append({
-                "pc": a.computer.number,
-                "student": f"{a.person.first_name} {a.person.last_name}",
-                "dni": a.person.dni,
+                "last_name": a.person.last_name,
+                "first_name": a.person.first_name,
                 "course": a.course.first_name,
-                "requested_at": a.requested_at.strftime("%H:%M"),
-                "returned": a.returned,
-                "alert": a.is_alert,
+                "computer": str(a.computer),  # usa __str__ del modelo
+                "computer_id": a.computer.id,
+                "is_available": a.computer.is_available,
+                "requested_at": a.requested_at.strftime("%d/%m/%Y %H:%M"),
+                "observation": a.observation,
+                "is_alert": a.is_alert,
             })
         return JsonResponse({"assignments": data})
 
