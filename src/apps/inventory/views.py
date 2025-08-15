@@ -309,6 +309,7 @@ class AssignmentListAjaxView(LoginRequiredMixin, View):
         data = []
         for a in assignments:
             data.append({
+                "id": a.id,
                 "last_name": a.person.last_name,
                 "first_name": a.person.first_name,
                 "course": a.course.first_name,
