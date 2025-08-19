@@ -45,6 +45,9 @@ class Assignment(models.Model):
     observation = models.CharField(max_length=255, default='Sin observaciones')
     returned = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-requested_at'] 
 
     def __str__(self):
         return f"{self.person} - PC #{self.computer.number}"
